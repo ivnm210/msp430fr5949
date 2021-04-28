@@ -1,1 +1,0 @@
-{"rustc":15436085144504615876,"features":"[]","target":16087881514148757001,"profile":10033495471373437411,"path":832363883843783923,"deps":[[1963177003237083364,"bare_metal",false,12483181646169451132]],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/msp430-200cb312af417610/dep-lib-msp430"}}],"rustflags":[],"metadata":2372436687640544787,"config":0,"compile_kind":0}
