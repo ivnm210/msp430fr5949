@@ -177,12 +177,12 @@ pub enum Interrupt {
     #[doc = "54 - 0xFFFC System Non-maskable"]
     SYSNMI = 54,
 }
-unsafe impl bare_metal::Nr for Interrupt {
-    #[inline(always)]
-    fn nr(&self) -> u8 {
-        *self as u8
-    }
-}
+// unsafe impl bare_metal::Nr for Interrupt {
+    // #[inline(always)]
+    // fn nr(&self) -> u8 {
+        // *self as u8
+    // }
+// }
 #[derive(Debug, Copy, Clone)]
 pub struct TryFromInterruptError(());
 impl Interrupt {
