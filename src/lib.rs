@@ -1,9 +1,9 @@
 #![feature(abi_msp430_interrupt)]
-#![cfg_attr(feature = "rt", feature(global_asm))]
+//#![cfg_attr(feature = "rt", feature(global_asm))]
 // #![cfg_attr(feature = "rt", feature(use_extern_macros))]
 // #![cfg_attr(feature = "rt", feature(used))]
 #![doc = "Peripheral access API for MSP430FR5949 microcontrollers (generated using svd2rust v0.17.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.17.0/svd2rust/#peripheral-api"]
-#![deny(const_err)]
+// #![deny(const_err)]
 #![deny(dead_code)]
 #![deny(improper_ctypes)]
 // #![deny(legacy_directory_ownership)]
@@ -28,6 +28,8 @@
 extern crate msp430;
 #[cfg(feature = "rt")]
 extern crate msp430_rt;
+#[cfg(feature = "critical-section")]
+extern crate critical_section;
 //#[cfg(feature = "rt")]
 //pub use msp430_rt::default_handler;
 extern crate bare_metal;
@@ -38,10 +40,10 @@ use core::ops::Deref;
 // pub mod interrupt;
 pub mod int;
 pub use self::int::Interrupt as interrupt;
-#[cfg(feature = "rt")]
-pub use msp430_rt::interrupt;
 #[allow(unused_imports)]
 use generic::*;
+#[cfg(feature = "rt")]
+pub use msp430_rt::interrupt;
 #[doc = r"Common register and bit access and modify traits"]
 pub mod generic;
 #[doc = "Port 1/2"]
@@ -788,9 +790,11 @@ pub struct Peripherals {
 }
 impl Peripherals {
     #[doc = r"Returns all the peripherals *once*"]
+    #[cfg(feature = "critical-section")]
     #[inline]
     pub fn take() -> Option<Self> {
-        msp430::interrupt::free(|_| {
+        // msp430::interrupt::free(|_| {
+        critical_section::with(|_| {
             if unsafe { DEVICE_PERIPHERALS } {
                 None
             } else {
